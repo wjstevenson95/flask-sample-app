@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery- Animate</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- FILL IN JQUERY CODE FOR PROBLEM HERE!! -->
+	<script>
+
+	</script>
+
+	<style>
+		#ex1, #ex2 {
+			height: 100px;
+			width: 75px;
+			background-color: #85996e;
+			position: relative;
+			text-align: center;
+			vertical-align: middle;
+			padding: 10px;
+			display: block;
+			overflow: auto;
+		}
+
+		#ex2 {
+			margin:auto;
+		}
+	</style>
+</head>
+<body>
+	<p>
+		This page covers various uses of the jQuery <b>animate</b> method, which allows users to create custom animations.
+	</p>
+
+	<h5>Syntax:</h5>
+
+	<p>$(<i>selector</i>).animate({<i>params</i>}, <i>speed</i>, <i>callback</i>)
+
+	<ul>
+		<li>The <i>{params}</i> parameter specifies the CSS properties that will be animated.</li>
+		<li>The optional <i>speed</i> parameter specifies the speed at which the animation occurs.</li>
+		<li>The optional <i>callback</i> parameter specifies a function that will run as soon as the effect has completed.</li>
+	</ul>
+
+	<p>Let's start with a simple animation example, then we'll look into more intricate uses of jQuery animate().</p>
+
+	<h5>Example:</h5>
+
+	<p>The following jQuery code will move the square HTML div to the right, increase the size of the text in the div, and change the opaqueness of the div's background color.</p>
+
+	<img src="animate_img2.PNG">
+	<br><br>
+
+	<button id="button1">Click to animate the div!</button>
+	<div id="ex1">Hello World!</div>
+	<br><br>
+	
+	<p>A few things to note from this example...</p>
+	<ul>
+		<li>You may have noticed the use of <b>+=</b> for changing the width property. In the example, this code means "increase the div's width to 300px <b>relative</b> to its current width value".</li>
+		<li>In the CSS for the div, the position was set to absolute. In CSS all elements default to a static position, so we set the position to absolute to allow the div to move to the right when the left property is changed.</li>
+		<li>You can change multiple CSS properties in one animate() call!</li>
+		<li>If you continue to click the button, the div stops moving to the right? This happens because the div reached left: 250px. How might you change the jQuery code so that it continues to move to the right?</li>
+		<li>The font size was changed with the variable <b>fontSize</b>. Remember that in JavaScript, variables are camel-cased, so even though the CSS property is <b>font-size</b>, with jQuery, it must be camel-cased to <b>fontSize</b>.</li>
+	</ul>
+
+	<p>This example was rather simple though, what if we want to animate something multiple times in a row, each time with different animations?</p>
+
+	<p>Luckily this is easy, because of jQuery's queue functionality. Essentially, if you write multiple calls to animate(), each call will be put into a queue and one after another they will run.</p>
+
+	<img src="animate_img1.PNG">
+
+	<p>In this code screenshot, jQuery creates a queue of the successive calls to animate() and processes them one after another.</p><br><br>
+
+	<p>Try this example problem:</p>
+
+	<h5>Problem:</h5>
+	
+	<p>Animate the HTML div such that when the button is clicked, the div will <b>slowly</b> move in a figure 8 motion and the opacity of the background color will alter.</p>
+
+	<button id="button2">Click to animate the div!</button>
+	<div id="ex2"></div>
+	<br><br>
+
+	<br><br>
+	<h5>Sources:</h5>
+	<p>If you'd like to see a tutorial far better looking than this one, visit the following link!</p>
+	<a href="https://www.w3schools.com/jquery/jquery_animate.asp" target="_blank">W3 Schools - jQuery Animate</a>
+
+
+</body>
+</html>

@@ -70,6 +70,22 @@ def logout():
 	flash('You were logged out!')
 	return redirect(url_for('/'))
 """
+@app.route('/conversions')
+def render_conversions_home():
+	return render_template('conversion_home.html')
+
+@app.route('/tutorials')
+def render_tutorials_home():
+	return render_template('tutorial_home.html')
+
+@app.route('/jquery-animate')
+def render_tutorials_animate():
+	return render_template('animate_key.html')
+
+@app.route('/jquery-slide')
+def render_tutorials_slide():
+	return render_template('slide.html')
+
 @app.route('/ctof')
 def render_ctof():
 	return render_template('ctof.html')

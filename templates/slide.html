@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>jQuery - Slide</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$("#slideDownButton").click(function() {
+			$("#slideDownPanel").slideDown("slow");
+		});
+		$("#slideUpButton").click(function() {
+			$("#slideUpPanel").slideUp("slow");
+		});
+		$("#slideToggleButton").click(function() {
+			$("#slideTogglePanel").slideToggle("fast");
+		});
+	});
+</script>
+<style>
+	#note {
+		text-indent: 50px;
+	}
+
+	#slideDownButton {
+		text-align: center;
+		background-color: rgb(0,200,200);
+		border: solid 1px black;
+	}
+
+	#slideDownPanel {
+		text-align: center;
+		background-color: #e5eecc;
+		border: solid 1px black;
+		padding: 50px;
+		display: none;
+	}
+
+	#slideUpButton {
+		text-align: center;
+		background-color: rgb(0,200,200);
+		border: solid 1px black;
+	}
+
+	#slideUpPanel {
+		text-align: center;
+		background-color: #e5eecc;
+		border: solid 1px black;
+		padding: 50px;
+	}
+
+	#slideToggleButton {
+		text-align: center;
+		background-color: rgb(0,200,200);
+		border: solid 1px black;
+	}
+
+	#slideTogglePanel {
+		text-align: center;
+		background-color: #e5eecc;
+		border: solid 1px black;
+		padding: 50px;
+		display: none;
+	}
+
+	.fit, #slideTogglePanel, #slideUpPanel, #slideDownPanel {
+		max-height: 99%;
+		max-width: 99%;
+	}
+</style>
+</head>
+
+<body>
+	<h1>jQuery - Slide</h1>
+	<p>In this section, we will cover the jQuery slide methods, which allow the user to slide HTML elements up and down.
+	<br>
+		<p id="note"><b>NOTE</b>: This assumes that the user has a working knowledge of HTML, CSS, and JavaScript.</p>
+	</p>
+	<p>Using jQuery, there are three main methods that you will user to create a sliding effect on the HTML elements of the document.</p>
+	<ul>
+		<li><b>slideDown()</b></li>
+		<li><b>slideUp()</b></li>
+		<li><b>slideToggle()</b></li>
+	</ul>
+
+	<h3>slideDown()</h3>
+
+	<p>The slideDown() jQuery method is used to slide down an HTML element.</p>
+	<p id="uth">Under The Hood: Essentially, this method is animating the <b>height</b> attribute of HTML elements.</p>
+
+	<h5>Syntax:</h5>
+
+	<p>$(<i>selector</i>).slideDown(<i>speed</i>, <i>callback</i>)
+
+	<ul>
+		<li>The optional speed parameters specifies the duration of the effect.</li>
+		<li>The optional callback parameter is a function that will run as soon as the slide up effect as completed.</li>
+	</ul>
+
+	<h5>Example:</h5>
+
+	<p>Examine the following code for the slideDown() method, and see it in action below.</p>
+	<img class="fit" src="slideDown.PNG">
+
+	<br><br>
+	<button id="slideDownButton">Click to slide the panel down!</button>
+	<div id="slideDownPanel">This is the slide down panel!</div>
+
+	<h3>slideUp()</h3>
+
+	<p>The slideUp() jQuery method is used to slide up an HTML element.</p>
+
+	<h5>Syntax:</h5>
+
+	<p>$(<i>selector</i>).slideUp(<i>speed</i>, <i>callback</i>)
+
+	<ul>
+		<li>The optional speed parameters specifies the duration of the effect.</li>
+		<li>The optional callback parameter is a function that will run as soon as the slide up effect as completed.</li>
+	</ul>
+
+	<h5>Example:</h5>
+
+	<p>Examine the following code for the slideUp() method, and see it in action below.</p>
+	<img class="fit" src="slideUp.PNG">
+
+	<br><br>
+	<button id="slideUpButton">Click to slide the panel up!</button>
+	<div id="slideUpPanel">This is the slide up panel!</div>
+
+
+	<p><b>WAIT!</b> What happens when you try to click the buttons again in the previous examples for slideDown() and slideUp()?</p>
+
+	<p>What if you want to be able to slide an element up and down without writing separate functions to do that? Enter the jQuery slideToggle() method...</p>
+
+	<h3>slideToggle()</h3>
+
+	<p>The slideToggle() jQuery method toggles between the slideUp() and slideDown() jQuery methods.</p>
+
+	<h5>Syntax:</h5>
+
+	<p>$(<i>selector</i>).slideToggle(<i>speed</i>, <i>callback</i>)
+
+	<ul>
+		<li>The optional speed parameters specifies the duration of the effect.</li>
+		<li>The optional callback parameter is a function that will run as soon as the slide up effect as completed.</li>
+	</ul>
+
+	<h5>Example:</h5>
+
+	<p>Examine the following code for the slideToggle() method, and see it in action below.</p>
+	<img class="fit" src="slideToggle.PNG">
+
+	<br><br>
+
+	<button id="slideToggleButton">Click to slide the panel up or down!</button>
+	<div id="slideTogglePanel">Hello There!</div>
+
+	<br><br>
+	<p><b>QUESTION:</b> You may have noticed that the panel in the slideToggle() example moved much faster then the panels in the previous examples, what aspect of the jQuery and HTML code changed that?</p>
+
+
+	<br><br>
+	<h5>Sources:</h5>
+	<p>If you'd like to see a tutorial far better looking than this one, visit the following link!</p>
+	<a href="https://www.w3schools.com/jquery/jquery_slide.asp" target="_blank">W3 Schools - jQuery Slide</a>
+
+
+	<a href="/tutorials">Return</a>
+
+</body>
+</html>
