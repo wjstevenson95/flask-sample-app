@@ -41,6 +41,11 @@
 		#ex2 {
 			margin:auto;
 		}
+
+		.image {
+			max-width: 100%;
+			max-height: 100%;
+		}
 	</style>
 </head>
 <body>
@@ -65,7 +70,7 @@
 	<p>The following jQuery code will move the square HTML div to the right, increase the size of the text in the div, and change \
 	the opaqueness of the div's background color.</p>
 
-	<img src="animate_img2.PNG">
+	<img class="image" src="/static/animate_img2.PNG">
 	<br><br>
 
 	<button id="button1">Click to animate the div!</button>
@@ -85,7 +90,7 @@
 
 	<p>Luckily this is easy, because of jQuery's queue functionality. Essentially, if you write multiple calls to animate(), each call will be put into a queue and one after another they will run.</p>
 
-	<img src="animate_img1.PNG">
+	<img class="image" src="/static/animate_img1.PNG">
 
 	<p>In this code screenshot, jQuery creates a queue of the successive calls to animate() and processes them one after another.</p><br><br>
 
