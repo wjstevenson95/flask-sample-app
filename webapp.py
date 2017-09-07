@@ -55,7 +55,7 @@ def authorized():
 		authorized_response=request.url)
 
 	session['oauth_token']= token
-	return redirect(url_for('profile'))
+	return redirect(url_for('render_home'))
 
 @app.route('/profile', methods=["GET"])
 def profile():
