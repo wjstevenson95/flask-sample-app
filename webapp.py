@@ -1,12 +1,16 @@
 from flask import Flask, session, render_template, request, redirect, url_for, flash
 from requests_oauthlib import OAuth2Session
 from flask import jsonify
+import logging
 import os
 import pprint
 import sys
 import string
 
 app = Flask(__name__)
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 app.secret_key=os.urandom(24)
 
 client_id = os.environ['GITHUB_CLIENT_ID']
