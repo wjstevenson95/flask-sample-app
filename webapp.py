@@ -1,75 +1,63 @@
 from flask import Flask, session, render_template, request, redirect, url_for, flash
-#from flask_oauthlib.client import OAuth
+from flask.json import 
+from requests_oauthlib import OAuth2Session
 import os
 import pprint
 import sys
 
 app = Flask(__name__)
-app.secret_key='w98fw9ef8hwe98fhwef'
-"""
+app.secret_key=os.urandom(24)
 session.clear()
 
-env_vars = ['GITHUB_CLIENT_ID','GITHUB_CLIENT_SECRET','APP_SECRET_KEY']
+client_id = os.env['GITHUB_CLIENT_ID']
+client_secret = os.env['GITHUB_CLIENT_SECRET']
+github = OAuth2Session(client_id)
+authorization_base_url = 'https://github.com/login/oauth/authorize'
+token_url = 'https://github.com/login/oauth/access_token'
 
-oauth = OAuth(app)
-github = oauth.remote_app('github',
-    consumer_key=os.environ['GITHUB_CLIENT_ID'],
-    consumer_secret=os.environ['GITHUB_CLIENT_SECRET'],
-    request_token_params={'scope': 'read:org'},
-    base_url='https://api.github.com/',
-    request_token_url=None,
-    access_token_method='POST',
-    access_token_url='https://github.com/login/oauth/access_token',
-    authorize_url='https://github.com/login/oauth/authorize'
-)
+(authorization_url,state) = github.authorization_url(authorization_base_url)
+session['oauth_state'] = state
+
+@app.context_processor
+def inject_logged_in():
+	return dict(logged_in=(is_logged_in()))
+
+def is_logged_in():
+	return session['oauth_token'] != None
+
 
 def is_localhost():
 	root_url = request.url_root
 	developer_url = 'http://127.0.0.1:5000/'
 	return root_url == developer_url
 
-"""
-
-
 
 @app.route('/')
 def render_home():
 	return render_template('home.html')
 
-"""
 @app.route('/login')
-def login():
-	if is_localhost():
-		return github.authorize(callback=url_for('authorized',_external=True))
+	return redirect(authorization_url)
 
-	return github.authorize(callback=url_for('authorized',_external=True,_scheme='https'))
 
 @app.route('/login/authorized')
-def login_authorized():
-	resp = github.authorized_response()
+	github = OAuth2Session(client_id, state=session['oauth_state'])
+	token = github.fetch_token(token_url, 
+		client_secret=client_secret,
+		authorized_response=request.url)
 
-	if resp is None:
-		session.clear()
-		login_error_message = 'Access denied: reason=%s error=%s full=%s' % (
-            request.args['error'],
-            request.args['error_description'],
-            pprint.pformat(request.args)
-        )        
-        flash(login_error_message, 'error')
-		return redirect(url_for('/'))
+	session['oauth_token']= token
+	return redirect(url_for('profile'))
 
-	try:
-		session['github_token'] = (resp['oauth_token'],
-									resp['oauth_token_secret'])
-		session['twitter_user'] = resp['screen_name']
-		flash('You were loggined in as %s' % resp['screen_name'])
+@app.route('/profile', methods=["GET"])
+	github = OAuth2Session()
 
 @app.route('/logout')
 def logout():
 	session.clear()
 	flash('You were logged out!')
-	return redirect(url_for('/'))
-"""
+	return redirect(url_for('render_home'))
+
 @app.route('/conversions')
 def render_conversions_home():
 	return render_template('conversion_home.html')
