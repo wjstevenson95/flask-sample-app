@@ -4,27 +4,28 @@ from flask import jsonify
 import os
 import pprint
 import sys
+import string
 
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
 
-client_id = os.urandom(24) #os.environ['GITHUB_CLIENT_ID']
-client_secret = os.urandom(24) #os.environ['GITHUB_CLIENT_SECRET']
-github = OAuth2Session(client_id)
+client_id = os.environ['GITHUB_CLIENT_ID']
+client_secret = os.environ['GITHUB_CLIENT_SECRET']
 authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 
-(authorization_url,state) = github.authorization_url(authorization_base_url)
-"""session['oauth_state'] = state
+#with app.test_request_context():
+	#session['oauth_state'] = state
 
+"""
 @app.context_processor
 def inject_logged_in():
 	return dict(logged_in=(is_logged_in()))
 
-
 def is_logged_in():
 	return session['oauth_token'] != None
 """
+
 def is_localhost():
 	root_url = request.url_root
 	developer_url = 'http://127.0.0.1:5000/'
@@ -35,13 +36,19 @@ def is_localhost():
 def render_home():
 	return render_template('home.html')
 
-"""@app.route('/login')
+@app.route('/login')
 def login():
+	session.clear()
+	github = OAuth2Session(client_id)
+	(authorization_url,state) = github.authorization_url(authorization_base_url)
+	print authorization_url
+	session['oauth_state'] = state
 	return redirect(authorization_url)
 
 
 @app.route('/login/authorized')
 def authorized():
+	print "got here?"
 	github = OAuth2Session(client_id, state=session['oauth_state'])
 	token = github.fetch_token(token_url, 
 		client_secret=client_secret,
@@ -60,7 +67,7 @@ def logout():
 	session.clear()
 	flash('You were logged out!')
 	return redirect(url_for('render_home'))
-"""
+
 @app.route('/conversions')
 def render_conversions_home():
 	return render_template('conversion_home.html')
