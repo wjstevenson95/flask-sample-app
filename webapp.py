@@ -16,7 +16,6 @@ authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 
 (authorization_url,state) = github.authorization_url(authorization_base_url)
-print "THIS IS THE AUTHORIZATION URL: %s " % authorization_url
 session['oauth_state'] = state
 
 @app.context_processor
@@ -38,10 +37,12 @@ def render_home():
 	return render_template('home.html')
 
 @app.route('/login')
+def login():
 	return redirect(authorization_url)
 
 
 @app.route('/login/authorized')
+def authorized():
 	github = OAuth2Session(client_id, state=session['oauth_state'])
 	token = github.fetch_token(token_url, 
 		client_secret=client_secret,
@@ -51,6 +52,7 @@ def render_home():
 	return redirect(url_for('profile'))
 
 @app.route('/profile', methods=["GET"])
+def profile():
 	"""Fetching a protected resource using an OAuth 2 token.
     """
     github = OAuth2Session(client_id, token=session['oauth_token'])
