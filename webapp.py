@@ -1,11 +1,10 @@
-from flask import Flask, session, render_template, request, redirect, url_for, flash
 from requests_oauthlib import OAuth2Session
-from flask import jsonify
+from flask import Flask, session, render_template, request, redirect, url_for, flash
+from flask.json import jsonify
 import logging
 import os
 import pprint
 import sys
-import string
 
 app = Flask(__name__)
 
@@ -17,6 +16,7 @@ client_id = os.environ['GITHUB_CLIENT_ID']
 client_secret = os.environ['GITHUB_CLIENT_SECRET']
 authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
+redirect_uri = 'https://polar-coast-87574.herokuapp.com/login/authorized'
 
 #with app.test_request_context():
 	#session['oauth_state'] = state
@@ -36,7 +36,7 @@ def render_home():
 
 @app.route('/login')
 def login():
-	github = OAuth2Session(client_id)
+	github = OAuth2Session(client_id, redirect_uri=redirect_uri)
 	(authorization_url,state) = github.authorization_url(authorization_base_url)
 	print authorization_url
 	session['oauth_state'] = state
@@ -45,27 +45,26 @@ def login():
 
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
-	github = OAuth2Session(client_id, state=session['oauth_state'])
-	print "it's a problem with fetch_token"
-	print request.url
-	token = github.fetch_token(token_url, 
-		client_secret=client_secret,
-		authorization_response=request.url)
+	github = OAuth2Session(client_id, state=session['oauth_state'], redirect_uri=redirect_uri)
+	token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
 	print "got here?"
 
 	session['oauth_token']= token
-	return redirect(url_for('profile'))
+	return redirect(url_for('.profile'))
+
 
 @app.route('/profile', methods=["GET"])
 def profile():
 	github = OAuth2Session(client_id, token=session['oauth_token'])
 	return jsonify(github.get('https://api.github.com/user').json())
 
+"""
 @app.route('/logout')
 def logout():
 	session.clear()
 	flash('You were logged out!')
 	return redirect(url_for('render_home'))
+"""
 
 @app.route('/conversions')
 def render_conversions_home():
