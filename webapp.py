@@ -39,22 +39,23 @@ def login():
 	return redirect(authorization_url)
 
 
-@app.route('/login/authorized')
+@app.route('/login/authorized', methods=["GET"])
 def authorized():
 	github = OAuth2Session(client_id, state=session['oauth_state'])
 	print "it's a problem with fetch_token"
+	print request.url
 	token = github.fetch_token(token_url, 
 		client_secret=client_secret,
-		authorized_response=request.url)
+		authorization_response=request.url)
 	print "got here?"
 
 	session['oauth_token']= token
-	return redirect(url_for('.profile'))
+	return redirect(url_for('profile'))
 
 @app.route('/profile', methods=["GET"])
 def profile():
 	github = OAuth2Session(client_id, token=session['oauth_token'])
-    return jsonify(github.get('https://api.github.com/user').json())
+	return jsonify(github.get('https://api.github.com/user').json())
 
 @app.route('/logout')
 def logout():
@@ -133,4 +134,4 @@ def mtokm(miles):
 	return (miles * 1.60934)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+	app.run(debug=True)
