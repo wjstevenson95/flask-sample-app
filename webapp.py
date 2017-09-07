@@ -13,7 +13,6 @@ client_id = os.environ['GITHUB_CLIENT_ID']
 client_secret = os.environ['GITHUB_CLIENT_SECRET']
 authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
-github = None
 
 #with app.test_request_context():
 	#session['oauth_state'] = state
@@ -27,19 +26,12 @@ def is_logged_in():
 	return session['oauth_token'] != None
 """
 
-def is_localhost():
-	root_url = request.url_root
-	developer_url = 'http://127.0.0.1:5000/'
-	return root_url == developer_url
-
-
 @app.route('/')
 def render_home():
 	return render_template('home.html')
 
 @app.route('/login')
 def login():
-	session.clear()
 	github = OAuth2Session(client_id)
 	(authorization_url,state) = github.authorization_url(authorization_base_url)
 	print authorization_url
@@ -49,7 +41,7 @@ def login():
 
 @app.route('/login/authorized')
 def authorized():
-	github.state = session['oauth_state']
+	github = OAuth2Session(client_id, state=session['oauth_state'])
 	print "it's a problem with fetch_token"
 	token = github.fetch_token(token_url, 
 		client_secret=client_secret,
@@ -57,11 +49,11 @@ def authorized():
 	print "got here?"
 
 	session['oauth_token']= token
-	return redirect(url_for('profile'))
+	return redirect(url_for('.profile'))
 
 @app.route('/profile', methods=["GET"])
 def profile():
-    github.token=session['oauth_token']
+	github = OAuth2Session(client_id, token=session['oauth_token'])
     return jsonify(github.get('https://api.github.com/user').json())
 
 @app.route('/logout')
