@@ -1,6 +1,6 @@
 from flask import Flask, session, render_template, request, redirect, url_for, flash
-from flask.json import 
 from requests_oauthlib import OAuth2Session
+from flask import jsonify
 import os
 import pprint
 import sys
@@ -50,7 +50,10 @@ def render_home():
 	return redirect(url_for('profile'))
 
 @app.route('/profile', methods=["GET"])
-	github = OAuth2Session()
+	"""Fetching a protected resource using an OAuth 2 token.
+    """
+    github = OAuth2Session(client_id, token=session['oauth_token'])
+    return jsonify(github.get('https://api.github.com/user').json())
 
 @app.route('/logout')
 def logout():
