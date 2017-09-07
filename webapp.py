@@ -16,6 +16,7 @@ authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 
 (authorization_url,state) = github.authorization_url(authorization_base_url)
+print "THIS IS THE AUTHORIZATION URL: %s " % authorization_url
 session['oauth_state'] = state
 
 @app.context_processor
