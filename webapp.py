@@ -36,6 +36,7 @@ def render_home():
 
 @app.route('/login')
 def login():
+	session.clear()
 	github = OAuth2Session(client_id, redirect_uri=redirect_uri)
 	(authorization_url,state) = github.authorization_url(authorization_base_url)
 	print authorization_url
