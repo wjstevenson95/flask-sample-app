@@ -15,7 +15,7 @@ authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 
 (authorization_url,state) = github.authorization_url(authorization_base_url)
-session['oauth_state'] = state
+"""session['oauth_state'] = state
 
 @app.context_processor
 def inject_logged_in():
@@ -24,7 +24,7 @@ def inject_logged_in():
 
 def is_logged_in():
 	return session['oauth_token'] != None
-	
+"""
 def is_localhost():
 	root_url = request.url_root
 	developer_url = 'http://127.0.0.1:5000/'
@@ -35,7 +35,7 @@ def is_localhost():
 def render_home():
 	return render_template('home.html')
 
-@app.route('/login')
+"""@app.route('/login')
 def login():
 	return redirect(authorization_url)
 
@@ -60,7 +60,7 @@ def logout():
 	session.clear()
 	flash('You were logged out!')
 	return redirect(url_for('render_home'))
-
+"""
 @app.route('/conversions')
 def render_conversions_home():
 	return render_template('conversion_home.html')
