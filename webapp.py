@@ -7,10 +7,9 @@ import sys
 
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
-session.clear()
 
-client_id = os.env['GITHUB_CLIENT_ID']
-client_secret = os.env['GITHUB_CLIENT_SECRET']
+client_id = os.urandom(24) #os.environ['GITHUB_CLIENT_ID']
+client_secret = os.urandom(24) #os.environ['GITHUB_CLIENT_SECRET']
 github = OAuth2Session(client_id)
 authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
@@ -22,10 +21,10 @@ session['oauth_state'] = state
 def inject_logged_in():
 	return dict(logged_in=(is_logged_in()))
 
+
 def is_logged_in():
 	return session['oauth_token'] != None
-
-
+	
 def is_localhost():
 	root_url = request.url_root
 	developer_url = 'http://127.0.0.1:5000/'
@@ -53,8 +52,6 @@ def authorized():
 
 @app.route('/profile', methods=["GET"])
 def profile():
-	"""Fetching a protected resource using an OAuth 2 token.
-    """
     github = OAuth2Session(client_id, token=session['oauth_token'])
     return jsonify(github.get('https://api.github.com/user').json())
 

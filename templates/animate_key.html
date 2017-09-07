@@ -1,10 +1,9 @@
+{%  extends "layout.html" %}
 
-<!DOCTYPE html>
-<html>
+{%  block content %}
+
 <head>
 	<title>jQuery- Animate</title>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -49,6 +48,7 @@
 	</style>
 </head>
 <body>
+	<h1>jQuery - Animate</h1>
 	<p>
 		This page covers various uses of the jQuery <b>animate</b> method, which allows users to create custom animations.
 	</p>
@@ -105,12 +105,12 @@
 	<br><br>
 
 	<br><br>
-	<h5>Sources:</h5>
+	<h4>Sources:</h4>
 	<p>If you'd like to see a tutorial far better looking than this one, visit the following link!</p>
 	<a href="https://www.w3schools.com/jquery/jquery_animate.asp" target="_blank">W3 Schools - jQuery Animate</a>
 
-	<a href="/tutorials">Return</a>
 
 
 </body>
-</html>
+
+{%  endblock %}

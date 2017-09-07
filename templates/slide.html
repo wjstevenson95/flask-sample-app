@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>jQuery - Slide</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{%  extends "layout.html" %}
 
+{%  block content %}
+<head>
 <script>
 	$(document).ready(function() {
 		$("#slideDownButton").click(function() {
@@ -165,12 +163,11 @@
 
 
 	<br><br>
-	<h5>Sources:</h5>
+	<h4>Sources:</h4>
 	<p>If you'd like to see a tutorial far better looking than this one, visit the following link!</p>
 	<a href="https://www.w3schools.com/jquery/jquery_slide.asp" target="_blank">W3 Schools - jQuery Slide</a>
 
 
-	<a href="/tutorials">Return</a>
-
 </body>
-</html>
+
+{%  endblock %}
