@@ -58,7 +58,7 @@ def profile():
 	print session['oauth_token']
 	github = OAuth2Session(client_id, token=session['oauth_token'])
 	json_data = jsonify(github.get('https://api.github.com/user').json())
-	return render_template('profile.html',profile_data=json_data)
+	return render_template('profile.html',profile_data=json.dumps())
 
 @app.route('/logout')
 def logout():
