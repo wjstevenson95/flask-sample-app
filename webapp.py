@@ -45,7 +45,6 @@ def authorized():
 	try:
 		github = OAuth2Session(client_id, state=session['oauth_state'])
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
-		print token
 		session['oauth_token'] = token
 		return redirect(url_for('.profile'))
 	except KeyError as error:
@@ -56,6 +55,7 @@ def authorized():
 
 @app.route('/profile', methods=["GET"])
 def profile():
+	print session['oauth_token']
 	github = OAuth2Session(client_id, token=session['oauth_token'])
 	json_data = jsonify(github.get('https://api.github.com/user').json())
 	return render_template('profile.html',profile_data=json_data)
