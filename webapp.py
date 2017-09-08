@@ -43,13 +43,14 @@ def login():
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
 	try:
-		github = OAuth2Session(client_id, state=session['oauth_state'], redirect_uri=redirect_uri)
+		github = OAuth2Session(client_id, state=session['oauth_state'])
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
 
 		session['oauth_token']= token
 		return redirect(url_for('.profile'))
-	except KeyError:
+	except KeyError as error:
 		session.clear()
+		print error
 		return redirect(url_for('render_home'))
 
 
