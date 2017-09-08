@@ -43,11 +43,11 @@ def login():
 
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
+	time.sleep(2)
 	try:
 		github = OAuth2Session(client_id, state=session['oauth_state'])
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
 		session['oauth_token'] = token
-		time.sleep(2)
 		return redirect(url_for('.profile'))
 	except KeyError as error:
 		session.clear()
@@ -57,10 +57,15 @@ def authorized():
 
 @app.route('/profile', methods=["GET"])
 def profile():
-	print session['oauth_token']
-	github = OAuth2Session(client_id, token=session['oauth_token'])
-	json_data = json.dumps(github.get('https://api.github.com/user'))
-	return render_template('profile.html',profile_data=json_data)
+	time.sleep(2)
+	try:
+		github = OAuth2Session(client_id, token=session['oauth_token'])
+		json_data = json.dumps(github.get('https://api.github.com/user'))
+		return render_template('profile.html',profile_data=json_data)
+	except KeyError as error:
+		session.clear()
+		print error
+		return redirect(url_for('render_home'))
 
 @app.route('/logout')
 def logout():
