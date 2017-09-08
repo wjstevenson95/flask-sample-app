@@ -1,10 +1,11 @@
 from requests_oauthlib import OAuth2Session
 from flask import Flask, session, render_template, request, redirect, url_for, flash
-from flask.json import jsonify
+from flask.json import jsonify, dumps
 import logging
 import os
 import pprint
 import sys
+import time
 
 app = Flask(__name__)
 
@@ -42,6 +43,7 @@ def login():
 
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
+	time.sleep(1)
 	try:
 		github = OAuth2Session(client_id, state=session['oauth_state'])
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
@@ -57,7 +59,7 @@ def authorized():
 def profile():
 	print session['oauth_token']
 	github = OAuth2Session(client_id, token=session['oauth_token'])
-	json_data = jsonify(github.get('https://api.github.com/user').json())
+	json_data = json.dumps(github.get('https://api.github.com/user'))
 	return render_template('profile.html',profile_data=json_data)
 
 @app.route('/logout')
