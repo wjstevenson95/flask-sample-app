@@ -43,14 +43,14 @@ def authorized():
 		github = OAuth2Session(client_id, state=session['oauth_state'], redirect_uri=redirect_uri)
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
 		session['oauth_token'] = token
-		return redirect(url_for('profile'))
+		return redirect(url_for('render_home'))
 
 
 @app.route('/profile', methods=["GET"])
 def profile():
 	github = OAuth2Session(client_id, token=session['oauth_token'])
-	return jsonify(github.get('https://api.github.com/user').json())
-	
+	data = jsonify(github.get('https://api.github.com/user').json())
+	return render_template('profile',profile_data=data)	
 
 @app.route('/logout')
 def logout():
