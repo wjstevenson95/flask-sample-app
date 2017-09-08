@@ -128,9 +128,6 @@ def ftoc(ftemp):
 def mtokm(miles):
 	return (miles * 1.60934)
 
-@github.tokengetter
-def get_github_oauth_token():
-    return session.get('oauth_token')
 
 if __name__ == "__main__":
 	app.run(debug=True)
