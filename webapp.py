@@ -45,7 +45,7 @@ def authorized():
 	try:
 		github = OAuth2Session(client_id, state=session['oauth_state'])
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
-
+		print token
 		session['oauth_token'] = token
 		return redirect(url_for('.profile'))
 	except KeyError as error:
