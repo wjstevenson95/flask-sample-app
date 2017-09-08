@@ -23,7 +23,7 @@ def inject_logged_in():
 	return dict(logged_in=(is_logged_in()))
 
 def is_logged_in():
-	return 'oauth_token' in session
+	return ('oauth_token' in session)
 
 @app.route('/')
 def render_home():
@@ -53,13 +53,11 @@ def profile():
 	github = OAuth2Session(client_id, token=session['oauth_token'])
 	return jsonify(github.get('https://api.github.com/user').json())
 
-"""
 @app.route('/logout')
 def logout():
 	session.clear()
 	flash('You were logged out!')
 	return redirect(url_for('render_home'))
-"""
 
 @app.route('/conversions')
 def render_conversions_home():
