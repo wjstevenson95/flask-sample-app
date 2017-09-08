@@ -32,18 +32,14 @@ def render_home():
 
 @app.route('/login')
 def login():
-	session.clear()
 	github = OAuth2Session(client_id, redirect_uri=redirect_uri)
 	(authorization_url,state) = github.authorization_url(authorization_base_url)
-	print authorization_url
-	print state
 	session['oauth_state'] = state
 	return redirect(authorization_url)
 
 
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
-	time.sleep(2)
 	try:
 		github = OAuth2Session(client_id, state=session['oauth_state'])
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
@@ -58,8 +54,8 @@ def authorized():
 @app.route('/profile', methods=["GET"])
 def profile():
 	github = OAuth2Session(client_id, token=session['oauth_token'])
-	json_data = json.dumps(github.get('https://api.github.com/user'))
-	return render_template('profile.html',profile_data=json_data)
+	return jsonify(github.get('https://api.github.com/user').json())
+	
 
 @app.route('/logout')
 def logout():
