@@ -1,6 +1,7 @@
 from requests_oauthlib import OAuth2Session
 from flask import Flask, session, render_template, request, redirect, url_for, flash
 from flask.json import jsonify, dumps
+from github import Github
 import logging
 import os
 import pprint
