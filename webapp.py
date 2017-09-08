@@ -57,15 +57,9 @@ def authorized():
 
 @app.route('/profile', methods=["GET"])
 def profile():
-	time.sleep(2)
-	try:
-		github = OAuth2Session(client_id, token=session['oauth_token'])
-		json_data = json.dumps(github.get('https://api.github.com/user'))
-		return render_template('profile.html',profile_data=json_data)
-	except KeyError as error:
-		session.clear()
-		print error
-		return redirect(url_for('render_home'))
+	github = OAuth2Session(client_id, token=session['oauth_token'])
+	json_data = json.dumps(github.get('https://api.github.com/user'))
+	return render_template('profile.html',profile_data=json_data)
 
 @app.route('/logout')
 def logout():
