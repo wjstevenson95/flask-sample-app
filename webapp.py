@@ -43,7 +43,7 @@ def authorized():
 		github = OAuth2Session(client_id, state=session['oauth_state'], redirect_uri=redirect_uri)
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
 		session['oauth_token'] = token
-		return redirect(url_for('render_home'))
+		return redirect(url_for('profile'))
 
 
 @app.route('/profile', methods=["GET"])
