@@ -3,7 +3,20 @@
 {%  block title %}Result of converting Miles to Kilometers{%  endblock %}
 
 {%  block content %}
-<p>In Miles: {{ miles }} In Kilometers {{ kilometers }}</p>
-<br>
-<a href="/">Return Home</a>
+
+<head>
+	<style type="text/css">
+		#mtokm_result_container {
+			padding-left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="mtokm_result_container">
+		<p>Miles: {{ miles }}<br>
+		Kilometers {{ kilometers }}</p><br>
+		<a href="/">Return Home</a>		
+	</div>
+</body>
+
 {%  endblock %}

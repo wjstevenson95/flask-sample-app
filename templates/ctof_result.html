@@ -3,7 +3,18 @@
 {%  block title %}Result of converting Celsius to Fahrenheit{%  endblock %}
 
 {%  block content %}
-<p> In Celsius: {{ cTemp }}.  In Fahrenheit: {{ fTemp }} </p>
-<br>
-<a href="/">Return Home</a>
+<head>
+	<style type="text/css">
+		#ctof_result_container {
+			padding-left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="ctof_result_container">
+		<p>Celsius: {{ cTemp }}.<br>
+		Fahrenheit: {{ fTemp }} </p><br>
+		<a href="/">Return Home</a>
+	</div>
+</body>
 {%  endblock %}

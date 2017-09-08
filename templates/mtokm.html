@@ -4,12 +4,23 @@
 
 {%  block content %}
 
-<p>Enter any number of miles and click "Submit" to convert number to kilometers.</p>
+<head>
+	<style type="text/css">
+		#mtokm_container {
+			padding-left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="mtokm_container">
+		<p>Enter any number of miles and click "Submit" to convert number to kilometers.</p>
+		<form action="/mtokm_result">Miles:<br>
+			<input type="text" name="miles" value="20">
+			<input type="submit" name="Submit">
+		</form>
+  	</div>
+</body>
 
-<form action="/mtokm_result">
-	Miles:<br>
-	<input type="text" name="miles" value="20">
-	<input type="submit" name="Submit">
-</form>
+
 
 {%  endblock %}

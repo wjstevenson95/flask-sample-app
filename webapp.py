@@ -18,17 +18,12 @@ authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 redirect_uri = 'https://polar-coast-87574.herokuapp.com/login/authorized'
 
-#with app.test_request_context():
-	#session['oauth_state'] = state
-
-"""
 @app.context_processor
 def inject_logged_in():
 	return dict(logged_in=(is_logged_in()))
 
 def is_logged_in():
-	return session['oauth_token'] != None
-"""
+	return 'oauth_token' in session
 
 @app.route('/')
 def render_home():
@@ -48,7 +43,6 @@ def login():
 def authorized():
 	github = OAuth2Session(client_id, state=session['oauth_state'], redirect_uri=redirect_uri)
 	token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
-	print "got here?"
 
 	session['oauth_token']= token
 	return redirect(url_for('.profile'))

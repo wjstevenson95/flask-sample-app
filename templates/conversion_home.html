@@ -3,12 +3,23 @@
 {% block title %}Conversions{% endblock %}
 
 {%  block content %}
-<h1>Conversions</h1>
-<p>Pick a simple conversion...</p>
-<ul>
-  <li><a href="/ctof">Convert Celsius to Fahrenheit</a></li>
-  <li><a href="/ftoc">Convert Fahrenheit to Celsius</a></li>
-  <li><a href="/mtokm">Convert Miles to Kilometers</a></li>
-</ul>
+	<head>
+		<style type="text/css">
+			#conversion_home_container {
+				padding-left: 50px;
+			}
+		</style>	
+	</head>
+	<body>
+		<div id="conversion_home_container">
+			<h1>Conversions</h1>
+			<p>Pick a simple conversion...</p>
+			<ul>
+  				<li><a href="/ctof">Convert Celsius to Fahrenheit</a></li>
+  				<li><a href="/ftoc">Convert Fahrenheit to Celsius</a></li>
+  				<li><a href="/mtokm">Convert Miles to Kilometers</a></li>
+			</ul>
+		</div>
+	</body>
 
 {%  endblock %}

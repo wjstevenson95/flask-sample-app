@@ -9,7 +9,12 @@
       <li><a href="/tutorials">Tutorials</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      {% if logged_in %}
+        <li><a href="/profile"></a>Profile</li>
+        <li><a href="/logout"></a>Logout</li>
+      {% else %}
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      {% endif %}
     </ul>
   </div>
 </nav>

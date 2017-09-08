@@ -4,12 +4,21 @@
 
 {%  block content %}
 
-<p>Enter a temperature and click "submit" to convert to Celsius</p>
-
-<form action="/ftoc_result">
-  Fahrenheit Temp:<br>
-  <input type="text" name="fTemp" value="68.0">
-  <input type="submit" value="Submit">
-</form>
+<head>
+	<style type="text/css">
+		#ftoc_container {
+			padding-left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="ftoc_container">
+		<p>Enter a temperature and click "submit" to convert to Celsius</p>
+		<form action="/ftoc_result">Fahrenheit Temp:<br>
+			<input type="text" name="fTemp" value="68.0">
+  			<input type="submit" value="Submit">
+  		</form>
+  	</div>
+</body>
 
 {%  endblock %}

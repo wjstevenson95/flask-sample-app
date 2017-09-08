@@ -25,6 +25,10 @@
 	</script>
 
 	<style>
+		#jquery_animate_container {
+			padding: 50px;
+		}
+
 		#ex1, #ex2 {
 			height: 100px;
 			width: 75px;
@@ -48,6 +52,7 @@
 	</style>
 </head>
 <body>
+<div id="jquery_animate_container">
 	<h1>jQuery - Animate</h1>
 	<p>
 		This page covers various uses of the jQuery <b>animate</b> method, which allows users to create custom animations.
@@ -55,7 +60,7 @@
 
 	<h5>Syntax:</h5>
 
-	<p>$(<i>selector</i>).animate({<i>params</i>}, <i>speed</i>, <i>callback</i>)
+	<p>$(<i>selector</i>).animate({<i>params</i>}, <i>speed</i>, <i>callback</i>)</p>
 
 	<ul>
 		<li>The <i>{params}</i> parameter specifies the CSS properties that will be animated.</li>
@@ -110,7 +115,7 @@
 	<a href="https://www.w3schools.com/jquery/jquery_animate.asp" target="_blank">W3 Schools - jQuery Animate</a>
 
 
-
+</div>
 </body>
 
 {%  endblock %}

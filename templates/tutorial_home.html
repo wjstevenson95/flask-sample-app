@@ -3,11 +3,22 @@
 {% block title %}jQuery - Tutorials{% endblock %}
 
 {%  block content %}
-<h1>jQuery Tutorials</h1>
-<p>Choose a tutorial...</p>
-<ul>
-  <li><a href="/jquery-slide">jQuery - Slide</a></li>
-  <li><a href="/jquery-animate">jQuery - Animate</a></li>
-</ul>
+<head>
+	<style type="text/css">
+		#tutorial_home_container {
+			padding-left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="tutorial_home_container">
+		<h1>jQuery Tutorials</h1>
+		<p>Choose a tutorial...</p>
+		<ul>
+  			<li><a href="/jquery-slide">jQuery - Slide</a></li>
+  			<li><a href="/jquery-animate">jQuery - Animate</a></li>
+		</ul>
+	</div>
+</body>
 
 {%  endblock %}

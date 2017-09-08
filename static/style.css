@@ -2,3 +2,8 @@ body {
 	background-color: #eef;
 	color: black;
 }
+
+#content {
+	padding-top: 65px;
+	margin-left: 20px;
+}

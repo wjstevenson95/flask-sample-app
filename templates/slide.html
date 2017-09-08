@@ -16,6 +16,10 @@
 	});
 </script>
 <style>
+	#jquery_slide_container {
+		padding: 50px;
+	}
+
 	#note {
 		text-indent: 50px;
 	}
@@ -73,6 +77,7 @@
 </head>
 
 <body>
+<div id="jquery_slide_container">
 	<h1>jQuery - Slide</h1>
 	<p>In this section, we will cover the jQuery slide methods, which allow the user to slide HTML elements up and down.
 	<br>
@@ -114,7 +119,7 @@
 
 	<h5>Syntax:</h5>
 
-	<p>$(<i>selector</i>).slideUp(<i>speed</i>, <i>callback</i>)
+	<p>$(<i>selector</i>).slideUp(<i>speed</i>, <i>callback</i>)</p>
 
 	<ul>
 		<li>The optional speed parameters specifies the duration of the effect.</li>
@@ -167,7 +172,7 @@
 	<p>If you'd like to see a tutorial far better looking than this one, visit the following link!</p>
 	<a href="https://www.w3schools.com/jquery/jquery_slide.asp" target="_blank">W3 Schools - jQuery Slide</a>
 
-
+</div>
 </body>
 
 {%  endblock %}
