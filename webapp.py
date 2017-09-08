@@ -40,7 +40,7 @@ def login():
 
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
-		github = OAuth2Session(client_id, state=session['oauth_state'])
+		github = OAuth2Session(client_id, state=session['oauth_state'], redirect_uri=redirect_uri)
 		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
 		session['oauth_token'] = token
 		return redirect(url_for('render_home'))
@@ -55,7 +55,6 @@ def profile():
 @app.route('/logout')
 def logout():
 	session.clear()
-	flash('You were logged out!')
 	return redirect(url_for('render_home'))
 
 @app.route('/conversions')
