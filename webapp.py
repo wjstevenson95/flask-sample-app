@@ -47,12 +47,13 @@ def login():
 	if is_localhost():
 		callback = url_for('authorized',_external=True)
 	else:
-		callback = url_for('authorized',_external=True)
+		callback = url_for('authorized',_external=True,_scheme='https')
 	return facebook.authorize(callback=callback)
 
 @app.route('/login/authorized')
 def authorized():
 	resp = facebook.authorized_response()
+	print resp
 	if resp is None:
 		return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],request.args['error_description'])
 	if isinstance(resp, OAuthException):
