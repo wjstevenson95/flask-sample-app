@@ -47,7 +47,7 @@ def login():
 	if is_localhost():
 		callback = url_for('authorized',_external=True)
 	else:
-		callback = url_for('authorized',next=(request.args.get('next') or request.referrer or None),_external=True,_scheme='https')
+		callback = url_for('authorized',_external=True,_scheme='https')
 	return facebook.authorize(callback=callback)
 
 @app.route('/login/authorized')
