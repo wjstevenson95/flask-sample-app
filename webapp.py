@@ -24,6 +24,8 @@ facebook = oauth.remote_app('facebook',
     request_token_params={'scope': 'email'}
 )
 
+login_error_message = None
+
 def is_localhost():
 	root_url = request.url_root
 	developer_url = 'http://127.0.0.1:5000/'
@@ -59,7 +61,6 @@ def login():
 
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
-	global login_error_message
 	resp = facebook.authorized_response()
 
 	if resp is None:
