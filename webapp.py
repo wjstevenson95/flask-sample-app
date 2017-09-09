@@ -59,6 +59,7 @@ def login():
 
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
+	global login_error_message
 	resp = facebook.authorized_response()
 
 	if resp is None:
