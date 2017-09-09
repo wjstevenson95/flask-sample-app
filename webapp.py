@@ -1,6 +1,6 @@
 from flask import Flask, session, render_template, request
 from flask import redirect, url_for, flash, Markup, jsonify
-from flask_oauthlib.client import OAuth
+from flask_oauthlib.client import OAuth, OAuthException
 import logging
 import os
 import pprint
@@ -11,13 +11,23 @@ app = Flask(__name__)
 
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
-app.secret_key=os.urandom(24)
+app.secret_key = os.urandom(24)
 
-client_id = os.environ['GITHUB_CLIENT_ID']
-client_secret = os.environ['GITHUB_CLIENT_SECRET']
-authorization_base_url = 'https://github.com/login/oauth/authorize'
-token_url = 'https://github.com/login/oauth/access_token'
-redirect_uri = 'https://polar-coast-87574.herokuapp.com/login/authorized'
+oauth = OAuth(app)
+facebook = oauth.remote_app('facebook',
+	base_url='https://graph.facebook.com/',
+    request_token_url=None,
+    access_token_url='/oauth/access_token',
+    authorize_url='https://www.facebook.com/dialog/oauth',
+    consumer_key=os.environ['FACEBOOK_APP_ID'],
+    consumer_secret=os.environ['FACEBOOK_APP_SECRET'],
+    request_token_params={'scope': 'email'}
+)
+
+def is_localhost():
+	root_url = request.url_root
+	developer_url = 'http://127.0.0.1:5000/'
+	return root_url == developer_url
 
 @app.context_processor
 def inject_logged_in():
@@ -32,30 +42,63 @@ def render_home():
 
 @app.route('/login')
 def login():
-	github = OAuth2Session(client_id, redirect_uri=redirect_uri)
-	(authorization_url,state) = github.authorization_url(authorization_base_url)
-	session['oauth_state'] = state
-	return redirect(authorization_url)
+	if is_localhost():
+		callback = url_for(
+			'authorized',
+			next=request.args.get('next') or request.referrer or None,
+			_external=True)
+	else:
+		callback = url_for(
+			'authorized',
+			next=request.args.get('next') or request.referrer or None,
+			_external=True,
+			_scheme='https')
+
+	return facebook.authorize(callback=callback)
 
 
 @app.route('/login/authorized', methods=["GET"])
 def authorized():
-		github = OAuth2Session(client_id, state=session['oauth_state'], redirect_uri=redirect_uri)
-		token = github.fetch_token(token_url, client_secret=client_secret, authorization_response=request.url)
-		session['oauth_token'] = token
-		return redirect(url_for('render_home'))
+	resp = facebook.authorized_response()
+
+	if resp is None:
+		session.clear()
+		login_error_message = 'Access denied: reason=%s error=%s full=%s' % (
+            request.args['error'],
+            request.args['error_description'],
+            pprint.pformat(request.args)
+        )        
+        flash(login_error_message, 'error')
+        return redirect(url_for('home'))
+
+	if isinstance(resp, OAuthException):
+		return 'Access denied: %s' % resp.message
+
+	session['oauth_token'] = (resp['access_token'], '') #Save access token in session
+	current_user = facebook.get('/me')
+	return 'Logged in as id=%s name=%s redirect=%s' % \
+		(me.data['id'], me.data['name'], request.args.get('next'))
 
 
 @app.route('/profile', methods=["GET"])
 def profile():
-	github = OAuth2Session(client_id, token=session['oauth_token'])
-	data = jsonify(github.get('https://api.github.com/user').json())
-	return render_template('profile',profile_data=data)	
+	if not is_logged_in():
+		error = "No user is currently logged in..."
+		flash(error, 'error')
+		return redirect(url_for('render_home'))
+	else:
+		user = facebook.get('user')
+		return jsonify(user.data)
+
 
 @app.route('/logout')
 def logout():
 	session.clear()
 	return redirect(url_for('render_home'))
+
+@facebook.tokengetter
+def get_facebook_oauth_token():
+	return session['oauth_token']
 
 @app.route('/conversions')
 def render_conversions_home():
