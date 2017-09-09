@@ -21,14 +21,14 @@ facebook = oauth.remote_app('facebook',
     authorize_url='https://www.facebook.com/dialog/oauth',
     consumer_key=os.environ['FACEBOOK_APP_ID'],
     consumer_secret=os.environ['FACEBOOK_APP_SECRET'],
-    request_token_params={'scope': 'email'}
+    request_token_params={'scope': 'email',"auth_type": "reauthenticate"}
 )
 
 login_error_message = None
 
 def is_localhost():
 	root_url = request.url_root
-	developer_url = 'http://127.0.0.1:5000/'
+	developer_url = 'http://localhost:5000/'
 	return root_url == developer_url
 
 @app.context_processor
@@ -44,7 +44,10 @@ def render_home():
 
 @app.route('/login')
 def login():
-	callback = url_for('authorized',_external=True)
+	if is_localhost():
+		callback = url_for('authorized',_external=True)
+	else:
+		callback = url_for('authorized',_external=True,_scheme='https')
 	return facebook.authorize(callback=callback)
 
 @app.route('/login/authorized')
@@ -56,6 +59,7 @@ def authorized():
 		return 'Access denied: %s' % resp.message
 
 	session['oauth_token'] = (resp['access_token'], '')
+	session['user_data'] = facebook.get('/me?fields=id,name,first_name,last_name,age_range,link,gender,locale,timezone,updated_time,verified,friends,email').data
 	return redirect(url_for('render_home'))
 
 @app.route('/profile')
@@ -65,8 +69,7 @@ def profile():
 		flash(error, 'error')
 		return redirect(url_for('render_home'))
 	else:
-		me = facebook.get('/me')
-		return 'Logged in as id=%s name=%s redirect=%s' % (me.data['id'], me.data['name'], request.args.get('next'))
+		return render_template('profile.html',profile_data=session['user_data'])
 
 
 @app.route('/logout')

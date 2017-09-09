@@ -10,10 +10,10 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
       {% if logged_in %}
-        <li><a href="/profile">Profile</a></li>
+        <li><a href="/profile">{{ session['user_data']['name'] }}</a></li>
         <li><a href="/logout">Logout</a></li>
       {% else %}
-        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="/login">Login</a></li>
       {% endif %}
     </ul>
   </div>
