@@ -44,26 +44,19 @@ def render_home():
 
 @app.route('/login')
 def login():
-	callback = url_for('authorized', _external=True, _scheme='https')
+	callback = url_for('authorized',_external=True)
 	return facebook.authorize(callback=callback)
-
 
 @app.route('/login/authorized')
 def authorized():
 	resp = facebook.authorized_response()
-
 	if resp is None:
-		session.clear()
-        return redirect(url_for('home'))
-
+		return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],request.args['error_description'])
 	if isinstance(resp, OAuthException):
 		return 'Access denied: %s' % resp.message
 
-	session['oauth_token'] = (resp['access_token'], '') #Save access token in session
-	current_user = facebook.get('/me')
-	return 'Logged in as id=%s name=%s redirect=%s' % \
-		(me.data['id'], me.data['name'], request.args.get('next'))
-
+	session['oauth_token'] = (resp['access_token'], '')
+	return redirect(url_for('render_home'))
 
 @app.route('/profile')
 def profile():
@@ -72,8 +65,8 @@ def profile():
 		flash(error, 'error')
 		return redirect(url_for('render_home'))
 	else:
-		user = facebook.get('user')
-		return jsonify(user.data)
+		me = facebook.get('/me')
+		return 'Logged in as id=%s name=%s redirect=%s' % (me.data['id'], me.data['name'], request.args.get('next'))
 
 
 @app.route('/logout')
