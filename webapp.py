@@ -44,22 +44,11 @@ def render_home():
 
 @app.route('/login')
 def login():
-	if is_localhost():
-		callback = url_for(
-			'authorized',
-			next=request.args.get('next') or request.referrer or None,
-			_external=True)
-	else:
-		callback = url_for(
-			'authorized',
-			next=request.args.get('next') or request.referrer or None,
-			_external=True,
-			_scheme='https')
-
+	callback = url_for('authorized', _external=True, _scheme='https')
 	return facebook.authorize(callback=callback)
 
 
-@app.route('/login/authorized', methods=["GET"])
+@app.route('/login/authorized')
 def authorized():
 	resp = facebook.authorized_response()
 
@@ -82,7 +71,7 @@ def authorized():
 		(me.data['id'], me.data['name'], request.args.get('next'))
 
 
-@app.route('/profile', methods=["GET"])
+@app.route('/profile')
 def profile():
 	if not is_logged_in():
 		error = "No user is currently logged in..."
