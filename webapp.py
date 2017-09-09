@@ -57,9 +57,8 @@ def authorized():
 		login_error_message = 'Access denied: reason=%s error=%s full=%s' % (
             request.args['error'],
             request.args['error_description'],
-            pprint.pformat(request.args)
-        )        
-        flash(login_error_message, 'error')
+            pprint.pformat(request.args))
+		flash(login_error_message, 'error')
         return redirect(url_for('home'))
 
 	if isinstance(resp, OAuthException):
