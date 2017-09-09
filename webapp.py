@@ -44,7 +44,7 @@ def render_home():
 
 @app.route('/login')
 def login():
-	callback = url_for('authorized', next=request.args.get('next') or request.referrer or None, _external=True)
+	callback = url_for('authorized', _external=True)
 	return facebook.authorize(callback=callback)
 
 
