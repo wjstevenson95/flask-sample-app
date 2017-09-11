@@ -76,7 +76,14 @@ def profile():
 		flash(error, 'error')
 		return redirect(url_for('render_home'))
 	else:
-		return render_template('profile.html',profile_data=session['user_data'])
+		user_id = facebook.get('/me?fields=id').data['id']
+		print user_id
+		url = 'https://graph.facebook.com/%s?fields=picture.type(large)' % user_id
+		print url
+		picture_data = facebook.get(url).data
+		picture_url = picture_data['picture']['data']['url']
+		return render_template('profile.html',profile_data=picture_url)
+		#return render_template('profile.html',profile_data=session['user_data'])
 
 
 @app.route('/logout')
