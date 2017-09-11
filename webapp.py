@@ -57,6 +57,7 @@ def authorized():
 	if resp is None:
 		return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],request.args['error_description'])
 	if isinstance(resp, OAuthException):
+		print "data: %s" % resp.data
 		return 'Access denied: %s' % resp.message
 
 	session['oauth_token'] = (resp['access_token'], '')
