@@ -42,7 +42,7 @@ def is_logged_in():
 def render_home():
 	return render_template('home.html')
 
-@app.route('/login',methods=['GET'])
+@app.route('/login')
 def login():
 	if is_localhost():
 		callback = url_for('authorized',_external=True)
@@ -50,13 +50,17 @@ def login():
 		callback = url_for('authorized',_external=True,_scheme='https')
 	return facebook.authorize(callback=callback)
 
-@app.route('/login/authorized',methods=['GET'])
+@app.route('/login/authorized')
 def authorized():
-	resp = facebook.authorized_response()
-	print resp
-	if resp is None:
-		return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],request.args['error_description'])
-	if isinstance(resp, OAuthException):
+	print "is it getting here???"
+	resp = None
+	try:
+		resp = facebook.authorized_response()
+		print resp
+		if resp is None:
+			return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],request.args['error_description'])
+	except OAuthException as resp:
+		print "got here..."
 		print "data: %s" % resp.data
 		return 'Access denied: %s' % resp.message
 
