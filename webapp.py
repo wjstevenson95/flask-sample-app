@@ -52,8 +52,8 @@ def login():
 
 @app.route('/login/authorized')
 def authorized():
-	print facebook.authorized_response()
 	resp = facebook.authorized_response()
+	print resp
 	if resp is None:
 		return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],request.args['error_description'])
 	if isinstance(resp, OAuthException):
