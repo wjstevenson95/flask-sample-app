@@ -42,7 +42,7 @@ def is_logged_in():
 def render_home():
 	return render_template('home.html')
 
-@app.route('/login')
+@app.route('/login',methods=['GET'])
 def login():
 	if is_localhost():
 		callback = url_for('authorized',_external=True)
@@ -50,7 +50,7 @@ def login():
 		callback = url_for('authorized',_external=True,_scheme='https')
 	return facebook.authorize(callback=callback)
 
-@app.route('/login/authorized')
+@app.route('/login/authorized',methods=['GET'])
 def authorized():
 	resp = facebook.authorized_response()
 	print resp
