@@ -18,6 +18,7 @@ facebook = oauth.remote_app('facebook',
 	base_url='https://graph.facebook.com/',
     request_token_url=None,
     access_token_url='/oauth/access_token',
+    access_token_method='GET',
     authorize_url='https://www.facebook.com/dialog/oauth',
     consumer_key=os.environ['FACEBOOK_APP_ID'],
     consumer_secret=os.environ['FACEBOOK_APP_SECRET'],
@@ -51,6 +52,7 @@ def login():
 	return facebook.authorize(callback=callback)
 
 @app.route('/login/authorized')
+@facebook.authorized_handler
 def authorized():
 	print "is it getting here???"
 	resp = None
