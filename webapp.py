@@ -68,29 +68,27 @@ def authorized():
 
 	session['oauth_token'] = (resp['access_token'], '')
 	session['user_data'] = facebook.get('/me?fields=id,name,first_name,last_name,age_range,link,gender,locale,timezone,updated_time,verified,friends,email').data
+	flash("You were succesfully logged in!")
 	return redirect(url_for('render_home'))
 
 @app.route('/profile')
 def profile():
-	print session['oauth_token']
 	if not is_logged_in():
 		error = "No user is currently logged in..."
 		flash(error, 'error')
 		return redirect(url_for('render_home'))
 	else:
 		user_id = facebook.get('/me?fields=id').data['id']
-		print user_id
 		url = 'https://graph.facebook.com/%s?fields=picture.type(large)' % user_id
-		print url
 		picture_data = facebook.get(url).data
 		picture_url = picture_data['picture']['data']['url']
-		return render_template('profile.html',profile_data=picture_url)
-		#return render_template('profile.html',profile_data=session['user_data'])
+		return render_template('profile.html',picture_url=picture_url)
 
 
 @app.route('/logout')
 def logout():
 	session.clear()
+	flash("You were successfully logged out!")
 	return redirect(url_for('render_home'))
 
 @facebook.tokengetter

@@ -11,7 +11,12 @@
 </head>
 <body>
 	<div id="profile_container">
-		<img src = "{{ profile_data }}">
+		<p>Welcome {{ session['user_data']['name'] }}</p>
+		<img src = "{{ picture_url }}">
+		<br><br>
+		<div id="user_info">
+		{{ session['user_data'] }}
+		</div>
 	</div>
 </body>
 
