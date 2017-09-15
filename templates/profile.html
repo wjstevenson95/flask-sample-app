@@ -12,7 +12,7 @@
 <body>
 	<div id="profile_container">
 		<p>Welcome {{ session['user_data']['name'] }}</p>
-		<img src = "{{ picture_url }}">
+		<img src = "{{ session['user_icon_url'] }}">
 		<br><br>
 		<div id="user_info">
 		{{ session['user_data'] }}

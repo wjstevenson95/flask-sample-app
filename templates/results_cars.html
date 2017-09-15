@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<head>
+  <style type="text/css">
+    #car_results_container {
+      padding-left: 25px;
+    }
+  </style>
+</head>
+<body>
+  <div class = "car_results_container">
+    <h2>Search Cars by Varying Identification: Results</h2>
+    <table>
+    <tr><th>Make</th><th>Model-Year</th><th>ID</th><th>Classification</th><th>Year</th></tr>
+    <tr>
+      <td>{{ make }}</td>
+      <td>{{ model_year }}</td>
+      <td>{{ id }}</td>
+      <td>{{ classification }}</td>
+      <td>{{ year }}</td>
+    </tr>
+  </table>
+  </div>
+</body>
+
+{% endblock %}

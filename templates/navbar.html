@@ -5,13 +5,15 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="/">Home</a></li>
+      <li><a href="/search/cars">Search CORGIS</a></li>
       <li><a href="/conversions">Conversions</a></li>
       <li><a href="/tutorials">Tutorials</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       {% if logged_in %}
+        <li><a class="navbar-brand" href="#"><img src="{{ session['user_icon_url'] }}&s=30" style="display: inline-block; max-height: 100%;"></a></li>
         <li><a href="/profile">{{ session['user_data']['name'] }}</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <li><a class="navbar_text" href="/logout">Logout</a></li>
       {% else %}
         <li><a href="/login">Login</a></li>
       {% endif %}

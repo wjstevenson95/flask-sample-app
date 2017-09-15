@@ -68,6 +68,11 @@ def authorized():
 
 	session['oauth_token'] = (resp['access_token'], '')
 	session['user_data'] = facebook.get('/me?fields=id,name,first_name,last_name,age_range,link,gender,locale,timezone,updated_time,verified,friends,email').data
+	user_id = session['user_data']['id']
+	url = 'https://graph.facebook.com/%s?fields=picture.type(small)' % user_id
+	picture_data = facebook.get(url).data
+	picture_url = picture_data['picture']['data']['url']
+	session['user_icon_url'] = picture_url
 	flash("You were succesfully logged in!")
 	return redirect(url_for('render_home'))
 
@@ -78,11 +83,7 @@ def profile():
 		flash(error, 'error')
 		return redirect(url_for('render_home'))
 	else:
-		user_id = facebook.get('/me?fields=id').data['id']
-		url = 'https://graph.facebook.com/%s?fields=picture.type(large)' % user_id
-		picture_data = facebook.get(url).data
-		picture_url = picture_data['picture']['data']['url']
-		return render_template('profile.html',picture_url=picture_url)
+		return render_template('profile.html')
 
 
 @app.route('/logout')
@@ -102,6 +103,19 @@ def render_conversions_home():
 @app.route('/tutorials')
 def render_tutorials_home():
 	return render_template('tutorial_home.html')
+
+@app.route('/search/cars')
+def render_search_cars():
+	return render_template('search_cars.html')
+
+@app.route('/results/cars',methods=['GET'])
+def render_results_cars():
+	return render_template('results_cars.html', make=request.args['make'],
+			model_year=request.args['model_year'],
+			id=request.args['id'],
+			classification=request.args['classification'],
+			year=request.args['year'])
+
 
 @app.route('/jquery-animate')
 def render_tutorials_animate():
