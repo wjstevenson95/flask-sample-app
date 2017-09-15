@@ -45,10 +45,12 @@ def render_home():
 
 @app.route('/login')
 def login():
-	if is_localhost():
-		callback = url_for('authorized',_external=True)
-	else:
-		callback = url_for('authorized',_external=True,_scheme='https')
+	# if is_localhost():
+	# 	callback = url_for('authorized',_external=True)
+	# else:
+	# 	callback = url_for('authorized',_external=True,_scheme='https')
+	# return facebook.authorize(callback=callback)
+	callback = url_for('authorized', next=request.args.get('next') or request.referrer or None, _external=True)
 	return facebook.authorize(callback=callback)
 
 @app.route('/login/authorized')
@@ -94,7 +96,7 @@ def logout():
 
 @facebook.tokengetter
 def get_facebook_oauth_token():
-	return session['oauth_token']
+	return session.get('oauth_token')
 
 @app.route('/conversions')
 def render_conversions_home():
