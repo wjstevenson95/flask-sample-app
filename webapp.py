@@ -65,7 +65,6 @@ def authorized():
 		return 'Access denied: %s' % resp.message
 
 	session['oauth_token'] = (resp['access_token'], '')
-	print "got here..."
 	session['user_data'] = facebook.get('/me?fields=id,name,first_name,last_name,age_range,link,gender,locale,timezone,updated_time,verified,friends,email').data
 	return redirect(url_for('render_home'))
 
