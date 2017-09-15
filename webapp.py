@@ -36,7 +36,7 @@ def inject_logged_in():
 	return dict(logged_in=(is_logged_in()))
 
 def is_logged_in():
-	return ('oauth_token' in session)
+	return 'oauth_token' in session
 
 @app.route('/')
 def render_home():
@@ -70,6 +70,7 @@ def authorized():
 
 @app.route('/profile')
 def profile():
+	print session['oauth_token']
 	if not is_logged_in():
 		error = "No user is currently logged in..."
 		flash(error, 'error')
