@@ -52,7 +52,6 @@ def login():
 	return facebook.authorize(callback=callback)
 
 @app.route('/login/authorized')
-@facebook.authorized_handler
 def authorized():
 	print "is it getting here???"
 	resp = None
