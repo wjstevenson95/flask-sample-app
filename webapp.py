@@ -53,23 +53,17 @@ def login():
 
 @app.route('/login/authorized')
 @facebook.authorized_handler
-def authorized(resp):
-	# print "is it getting here???"
-	# resp = None
-	# try:
-	# 	resp = facebook.authorized_response()
-	# 	print resp
-	# 	if resp is None:
-	# 		return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],request.args['error_description'])
-	# except OAuthException as resp:
-	# 	print "got here..."
-	# 	print "data: %s" % resp.data
-	# 	return 'Access denied: %s' % resp.message
-	if resp is None:
-		print "Got None"
-		return redirect(url_for('render_home'))
-	
-	if isinstance(resp,OAuthException):
+def authorized():
+	print "is it getting here???"
+	resp = None
+	try:
+		resp = facebook.authorized_response()
+		print resp
+		if resp is None:
+			return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],request.args['error_description'])
+	except OAuthException as resp:
+		print "got here..."
+		print "data: %s" % resp.data
 		return 'Access denied: %s' % resp.message
 
 	session['oauth_token'] = (resp['access_token'], '')
