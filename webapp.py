@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
-app.secret_key = os.urandom(24)
+app.secret_key = 'development'
 
 oauth = OAuth(app)
 facebook = oauth.remote_app('facebook',
@@ -25,7 +25,8 @@ facebook = oauth.remote_app('facebook',
     request_token_params={'scope': 'email',"auth_type": "reauthenticate"}
 )
 
-login_error_message = None
+redirect_uri = 'https://polar-coast-87574.herokuapp.com/login/authorized'
+
 
 def is_localhost():
 	root_url = request.url_root
@@ -45,12 +46,10 @@ def render_home():
 
 @app.route('/login')
 def login():
-	# if is_localhost():
-	# 	callback = url_for('authorized',_external=True)
-	# else:
-	# 	callback = url_for('authorized',_external=True,_scheme='https')
-	# return facebook.authorize(callback=callback)
-	callback = url_for('authorized', _external=True, _scheme='https')
+	if is_localhost():
+		callback = url_for('authorized',_external=True)
+	else:
+		callback = url_for('authorized',_external=True,_scheme='https')
 	return facebook.authorize(callback=callback)
 
 @app.route('/login/authorized')
