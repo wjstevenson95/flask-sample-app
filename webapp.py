@@ -68,6 +68,9 @@ def authorized(resp):
 	if resp is None:
 		print "Got None"
 		return redirect(url_for('render_home'))
+	
+	if isinstance(resp,OAuthException):
+		return 'Access denied: %s' % resp.message
 
 	session['oauth_token'] = (resp['access_token'], '')
 	session['user_data'] = facebook.get('/me?fields=id,name,first_name,last_name,age_range,link,gender,locale,timezone,updated_time,verified,friends,email').data
