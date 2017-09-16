@@ -1,6 +1,8 @@
 from flask import Flask, session, render_template, request
 from flask import redirect, url_for, flash, Markup, jsonify
 from flask_oauthlib.client import OAuth, OAuthException
+from flask_pymongo import PyMongo
+from PyMongo
 import logging
 import os
 import pprint
@@ -12,6 +14,9 @@ app = Flask(__name__)
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
 app.secret_key = 'development'
+
+""" MONGO DB TO SET UP ONCE MLAB ACCOUNT IS SET"""
+#carsDB = PyMongo(app)
 
 oauth = OAuth(app)
 facebook = oauth.remote_app('facebook',
